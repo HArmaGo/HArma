@@ -4,7 +4,11 @@
     { "exchange" : "okcoin-btc", "period" : 0.100 },
     { "exchange" : "okcoin-ltc", "period" : 0.100 },
     { "exchange" : "btcc-btc", "period" : 0.100 },
-    { "exchange" : "btcc-ltc", "period" : 0.100 }
-
+    { "exchange" : "btcc-ltc", "period" : 0.100 },
+    { "exchange" : "btcc-ltcbtc", "period" : 0.100 },
+    { "exchange" : "huobi-btc", "period" : 0.100 },
+    { "exchange" : "huobi-ltc", "period" : 0.100 },
+    { "exchange" : "chbtc-btc", "period" : 0.100 },
+    { "exchange" : "chbtc-ltc", "period" : 0.100 }
   ]
 }

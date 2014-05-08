@@ -15,6 +15,8 @@ def load_exg(name):
   >>> exg = load_exg('okcoin-btc')
   """
   sys.path.append(os.path.expanduser('~/src/depth/exg'))
+  if name in sys.modules:
+    del sys.modules[name]
   return __import__(name)
 
 def wait_all():
@@ -111,17 +113,20 @@ def main():
   dump_log_and_print ('depth', 'thread main loaded.')
 
   while not pop_flag('exit'):
-    if pop_flag('reload'):
-      load()
-      dump_log_and_print ('depth', 'thread main reloaded.')
+    try:
+      if pop_flag('reload'):
+        load()
+        dump_log_and_print ('depth', 'thread main reloaded.')
 
-    for exg in exgList:
-      name, prd, lst, _ = exgList[exg]
-      if time.time() - lst > prd and not taskQue.has(exg):
-        #dump_log_and_print('depth', 'push %s on %s' %(exg, time.time()))
-        taskQue.push(exg)
+      for exg in exgList:
+        name, prd, lst, _ = exgList[exg]
+        if time.time() - lst > prd and not taskQue.has(exg):
+          #dump_log_and_print('depth', 'push %s on %s' %(exg, time.time()))
+          taskQue.push(exg)
 
-    time.sleep(0.005)
+      time.sleep(0.005)
+    except:
+      print(traceback.format_exc())
 
   wait_all()
   dump_log_and_print ('depth', 'thread main terminated.')
