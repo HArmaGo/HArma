@@ -1,0 +1,10 @@
+{
+  "queueSize" : 20,
+  "exchanges" : [ 
+    { "exchange" : "okcoin-btc", "period" : 0.100 },
+    { "exchange" : "okcoin-ltc", "period" : 0.100 },
+    { "exchange" : "btcc-btc", "period" : 0.100 },
+    { "exchange" : "btcc-ltc", "period" : 0.100 }
+
+  ]
+}
