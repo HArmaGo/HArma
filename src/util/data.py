@@ -1,14 +1,14 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3.4
 # -*- coding: utf-8 -*-
 
 def is_valid_goodsname(name):
   """
   >>> is_valid_goodsname('')
   False
-  >>> is_valid_goodsname('CNY')
+  >>> is_valid_goodsname('cny')
   True
   """
-  return name in [ 'CNY', 'BTC', 'LTC', 'XXX', 'YYY' ]
+  return name in [ 'cny', 'btc', 'ltc' ]
 
 def is_valid_price(price):
   """
@@ -106,9 +106,9 @@ def is_valid_goodsratename(name):
   """
   >>> is_valid_goodsratename('')
   False
-  >>> is_valid_goodsratename('CNY-')
+  >>> is_valid_goodsratename('cny-')
   False
-  >>> is_valid_goodsratename('CNY-BTC')
+  >>> is_valid_goodsratename('cny-btc')
   True
   """
   return name.count('-')==1 and all(is_valid_goodsname(n) for n in name.split('-'))
@@ -117,11 +117,22 @@ def is_valid_goodsrate(rate):
   """
   >>> is_valid_goodsrate([])
   False
-  >>> is_valid_goodsrate(('CNY-LTC', (((5000,1),),((5100,1),))))
+  >>> is_valid_goodsrate(('cny-ltc', (((5000,1),),((5100,1),))))
   True
   """
   if not rate: return False
   return len(rate)==2 and is_valid_goodsratename(rate[0]) and is_valid_depth(rate[1])
+
+def is_valid_goodsrates(rates):
+  """
+  >>> is_valid_goodsrates([])
+  False
+  >>> is_valid_goodsrates([('cny-ltc', (((5000,1),),((5100,1),)))])
+  True
+  """
+  if not rates: return False
+  return all([len(rate)==2 and is_valid_goodsratename(rate[0]) and is_valid_depth(rate[1]) \
+              for rate in rates])
 
 
 if __name__ == '__main__':

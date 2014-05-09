@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3.4
 # -*- coding: utf-8 -*-
 
 import json, os, shutil
@@ -9,22 +9,21 @@ def get_working_dir():
   >>> x.count('HArma') > 0
   True
   """
-  rpath = os.path.expanduser('~/')
-  return rpath
+  absPath = os.path.expanduser('~/')
+  return absPath
 
 def setup_dir(path):
   """
   >>> dx = './asdklfjklasdfjkl'
   >>> x = '%s/a/b/c/d' %dx
-  >>> os.path.exists(x)
-  False
   >>> setup_dir(x)
   >>> os.path.exists(x)
   True
   >>> shutil.rmtree(dx)
   """
-  if not os.path.exists(path):
-    os.makedirs(path)
+  absPath = os.path.abspath(path)
+  if not os.path.exists(absPath):
+    os.makedirs(absPath)
 
 def load_cfg_field(path, field):
   """
@@ -32,7 +31,8 @@ def load_cfg_field(path, field):
   >>> len(x) > 0
   True
   """
-  with open(path, 'r', encoding = 'utf-8') as myFile:
+  absPath = os.path.abspath(path)
+  with open(absPath, 'r') as myFile:
     lines = ' '.join( l[:-1] for l in myFile.readlines() )
     jdata = json.loads(lines)
     assert field in jdata

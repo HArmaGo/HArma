@@ -1,5 +1,7 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3.4
 # -*- coding: utf-8 -*-
+
+import os, sys
 
 from crawl import *
 from data import *

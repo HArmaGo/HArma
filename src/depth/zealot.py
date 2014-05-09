@@ -1,26 +1,30 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3.4
 # -*- coding: utf-8 -*-
 
 import json, os, sys, threading, time, traceback
 
-sys.path.append(os.path.expanduser('~/src/util'))
-from util import *
+sys.path.append(os.path.abspath('../util'))
+from inc import *
 
+cfgFile = './cfg'
 exgList = {}
 thPool = []
 taskQue = que(1)
 
 def load_exg(name):
   """
-  >>> exg = load_exg('okcoin-btc')
+  >>> exg = load_exg('okcoin')
   """
-  sys.path.append(os.path.expanduser('~/src/depth/exg'))
+  sys.path.append(os.path.abspath('../exg'))
   if name in sys.modules:
     del sys.modules[name]
   return __import__(name)
 
 def wait_all():
   """
+  >>> __test2()
+  >>> load() #doctest: +ELLIPSIS
+  [...] thread worker created.
   >>> wait_all() #doctest: +ELLIPSIS
   [...] thread worker terminated.
   """
@@ -35,6 +39,7 @@ def load():
   """
   >>> load() #doctest: +ELLIPSIS
   [...] thread worker created.
+  >>> __test2()
   """
   global exgList, thPool, taskQue
 
@@ -43,13 +48,13 @@ def load():
 
   # setup exchanges
   exgList = {}
-  exgs = load_cfg_field('./cfg', 'exchanges')
+  exgs = load_cfg_field(cfgFile, 'exchanges')
   for exg in exgs:
     name, prd = exg['exchange'], float(exg['period'])
     exgList[name] = [ load_exg(name), prd, 0, None ]
 
   # clear queue
-  qSize = load_cfg_field('./cfg', 'queueSize')
+  qSize = load_cfg_field(cfgFile, 'queueSize')
   taskQue = que(qSize)
 
   # start all threads
@@ -64,15 +69,23 @@ def update(exg, d):
   mod, _, _, data = exgList[exg]
   name, depth = d[0], (d[1][0][:10], d[1][1][:10])
   if data != depth:
-    path, line = 'depth/' + name + '/' + mod.longname, json.dumps(depth)
+    path, line = os.path.join('depth', name, exg), json.dumps(depth)
     dump_log(path, line)
     exgList[exg][3] = depth
 
 def __test1(flag):
+  """
+  >>> __test1('exit')
+  >>> pop_flag('exit')
+  True
+  """
   time.sleep(0.5)
   set_flag(flag)
 
 def __test2():
+  """
+  >>> __test2()
+  """
   global thPool
   thPool = []
 
@@ -90,7 +103,8 @@ def worker():
         exgList[exg][2] = time.time()
         #dump_log_and_print('depth', 'pick %s on %s' %(exg, time.time()))
 
-        update(exg, mod.get_depth())
+        for d in mod.get_depth():
+          update(exg, d)
         #dump_log_and_print('depth', 'got  %s on %s' %(exg, time.time()))
       else:
         time.sleep(0.011)

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3.4
 # -*- coding: utf-8 -*-
 
 import os, shutil
@@ -8,8 +8,8 @@ import fmt, wdir
 def dump_log_and_print(path, line):
   """
   >>> date = fmt.get_date()
-  >>> dx = '~/log/asdklfjklasdfjkl'
-  >>> dx = os.path.expanduser(dx)
+  >>> dx = '../../trash/asdklfjklasdfjkl'
+  >>> dx = os.path.abspath(dx)
   >>> x = '%s/a/b/c/d' %dx
   >>> y = '%s/%s.log' %(x, date)
   >>> dump_log_and_print(x, 'a') #doctest: +ELLIPSIS
@@ -22,8 +22,8 @@ def dump_log_and_print(path, line):
 def dump_log(path, line):
   """
   >>> date = fmt.get_date()
-  >>> dx = '~/log/asdklfjklasdfjkl'
-  >>> dx = os.path.expanduser(dx)
+  >>> dx = '../../trash/asdklfjklasdfjkl'
+  >>> dx = os.path.abspath(dx)
   >>> x = '%s/a/b/c/d' %dx
   >>> y = '%s/%s.log' %(x, date)
   >>> dump_log(x, 'a')
@@ -43,8 +43,8 @@ def dump_log(path, line):
 def dump_logs_and_print(path, lines):
   """
   >>> date = fmt.get_date()
-  >>> dx = '~/log/asdklfjklasdfjkl'
-  >>> dx = os.path.expanduser(dx)
+  >>> dx = '../../trash/asdklfjklasdfjkl'
+  >>> dx = os.path.abspath(dx)
   >>> x = '%s/a/b/c/d' %dx
   >>> y = '%s/%s.log' %(x, date)
   >>> dump_logs_and_print(x, [ 'a', 'b' ]) #doctest: +ELLIPSIS
@@ -58,8 +58,8 @@ def dump_logs_and_print(path, lines):
 def dump_logs(path, lines):
   """
   >>> date = fmt.get_date()
-  >>> dx = '~/log/asdklfjklasdfjkl'
-  >>> dx = os.path.expanduser(dx)
+  >>> dx = '../../trash/asdklfjklasdfjkl'
+  >>> dx = os.path.abspath(dx)
   >>> x = '%s/a/b/c/d' %dx
   >>> y = '%s/%s.log' %(x, date)
   >>> dump_logs(x, ['a', 'b'])
