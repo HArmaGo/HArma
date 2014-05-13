@@ -1,9 +1,0 @@
-{
-  "queueSize" : 20,
-  "exchanges" : [ 
-    { "exchange" : "okcoin", "period" : 0.100 },
-    { "exchange" : "btcchina", "period" : 0.100 },
-    { "exchange" : "chbtc", "period" : 0.100 },
-    { "exchange" : "huobi", "period" : 0.100 }
-  ]
-}

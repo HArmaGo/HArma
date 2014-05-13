@@ -3,7 +3,7 @@
 
 import signal
 
-import flag
+from util import flag
 
 sig_flag = {}
 
@@ -18,18 +18,19 @@ def __handler(signum, frame):
   if signum in sig_flag:
     flag.set_flag(sig_flag[signum])
 
-def __bind_signal(signum, flag):
+def __bind_signal(signum, f):
   """
+  >>> import flag
   >>> __bind_signal(signal.SIGINT, 'exit')
   >>> sig_flag[signal.SIGINT]
   'exit'
   """
-  global sig_flag
-  sig_flag[signum] = flag
+  sig_flag[signum] = f
   signal.signal(signum, __handler)
 
 def reg_reload_signal():
   """
+  >>> import flag
   >>> reg_reload_signal()
   >>> sig_flag[signal.SIGWINCH]
   'reload'
@@ -39,6 +40,7 @@ def reg_reload_signal():
 
 def reg_exit_signal():
   """
+  >>> import flag
   >>> reg_exit_signal()
   >>> sig_flag[signal.SIGINT]
   'exit'
